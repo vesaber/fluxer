@@ -70,8 +70,15 @@ fs.writeFileSync(
 	JSON.stringify([
 		{
 			name: 'Minecraft',
-			executables: [{name: '>java', os: 'linux', arguments: 'net.minecraft.client.main.Main'}],
+			executables: [
+				{name: '>java', os: 'linux', arguments: 'net.minecraft.client.main.Main'},
+				{name: 'content/minecraft.exe', os: 'win32'},
+			],
 			presence_assets: {mode_0: 'osu/mode_0.png'},
+		},
+		{
+			name: 'osu!',
+			executables: [{name: 'osu!.app', os: 'darwin'}],
 		},
 	]),
 );
@@ -84,5 +91,24 @@ assert.equal(
 	detectablesModule.resolveMappedRpcImage('minecraft', 'https://example.com/cover.png'),
 	'https://example.com/cover.png',
 );
+
+assert.equal(
+	detectablesModule.matchAppByWindowsCmdline(['C:\\Program Files\\Minecraft\\content\\minecraft.exe'])?.name,
+	'Minecraft',
+);
+assert.equal(detectablesModule.matchAppByWindowsCmdline(['C:\\Program Files\\Other\\launcher.exe']), null);
+
+const bundleSegments = '/applications/osu!.app/contents/macos/osu!'.split('/');
+const bundleSuffixes = [];
+for (let i = 1; i <= bundleSegments.length; i++) {
+	bundleSuffixes.push(bundleSegments.slice(-i).join('/'));
+}
+const osuExecutable = {name: 'osu!.app', os: 'darwin'};
+assert.equal(detectablesModule.matchLinuxExecutable(osuExecutable, bundleSuffixes, [], 'darwin'), false);
+assert.equal(
+	detectablesModule.matchLinuxExecutable(osuExecutable, [...bundleSuffixes, 'osu!.app'], [], 'darwin'),
+	true,
+);
+assert.equal(detectablesModule.matchLinuxExecutable(osuExecutable, [...bundleSuffixes, 'osu!.app'], [], 'linux'), false);
 
 console.log('DetectableApplications test passed');

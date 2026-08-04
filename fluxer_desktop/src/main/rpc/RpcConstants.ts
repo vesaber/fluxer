@@ -8,6 +8,8 @@ export const ACTIVITY_FLAG_INSTANCE = 1 << 0;
 
 export const PROCESS_SCAN_INTERVAL = 15000;
 export const LOST_GAME_MISS_THRESHOLD = 2;
+export const PROCESS_QUERY_TIMEOUT = 10000;
+export const PROCESS_QUERY_MAX_BUFFER_BYTES = 4 * 1024 * 1024;
 export const EXECUTABLE_ARCH_SUFFIXES = ['64', '.x64', 'x64', '_64'] as const;
 export const EXECUTABLE_EXACT_MATCH_PREFIX = '>';
 export const LINUX_PROC_DIR = '/proc';

@@ -7,7 +7,7 @@ import {
 	resolveByClientId,
 	resolveMappedRpcImage,
 } from '@electron/main/DetectableApplications';
-import {getScannedGameIdByPid} from '@electron/main/LinuxProcessScanner';
+import {getScannedGameIdByPid} from '@electron/main/rpc/ProcessScanState';
 import type {RpcActivityPayload} from '@electron/main/rpc/RpcTypes';
 import {normalizeTimestamps} from '@electron/main/rpc/RpcUtils';
 import {getMainWindow} from '@electron/main/Window';
