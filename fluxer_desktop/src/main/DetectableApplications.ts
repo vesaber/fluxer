@@ -319,7 +319,7 @@ function buildWindowsCmdlinePatternsByBasename(): Map<string, Array<WindowsCmdli
 
 export function matchAppByWindowsCmdline(args: Array<string>): DetectableApp | null {
 	loadDetectableApplications();
-	const cmdlineLower = args.join(' ').toLowerCase();
+	const cmdlineLower = args.join(' ').toLowerCase().replaceAll('\\', '/');
 	if (!cmdlineLower.includes('.exe')) return null;
 	if (!windowsCmdlinePatternsByBasename) {
 		windowsCmdlinePatternsByBasename = buildWindowsCmdlinePatternsByBasename();
